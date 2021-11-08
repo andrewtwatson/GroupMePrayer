@@ -1,0 +1,38 @@
+"""
+Handles all the API calls with google sheets. This is just to keep bot.py from being cluttered.
+A lot of this is adapted from Google's quickstart.py and from https://denisluiz.medium.com/python-with-google-sheets-service-account-step-by-step-8f74c26ed28e.
+
+@author Andrew Watson
+
+"""
+import os
+import json
+from apiclient import discovery
+from google.oauth2 import service_account
+
+from pprint import pprint
+
+
+class GoogleHelper:
+    SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
+    google_client_secret = os.path.join(os.getcwd(), "google_client_secret.json")
+    credentials = None
+    service = None
+    spreadsheet_range = 'B2:C3'
+
+    __secrets = json.load(open('secrets.json'))
+    spreadsheet_id = __secrets['spreadsheet_id']
+
+    def _setupCreds(self):
+        """
+        Set up the credentials of the client.
+        """
+        if not self.credentials or not self.service or (self.credentials.expired and self.credentials.refresh_token):
+            self.credentials = service_account.Credentials.from_service_account_file(self.google_client_secret, scopes=self.SCOPES)
+            self.service = discovery.build('sheets', 'v4', credentials=self.credentials)
+
+    def getSpreadsheet(self):
+        self._setupCreds()
+        request = self.service.spreadsheets().values().get(spreadsheetId=self.spreadsheet_id, range=self.spreadsheet_range)
+        response = request.execute()
+        return response['values']
