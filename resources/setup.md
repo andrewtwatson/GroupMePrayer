@@ -16,7 +16,8 @@
 ##### Heroku Setup
 - Create a new app. You can set it up to deploy automatically on commits to main, or just click deploy now just deploy the current version.
 - You will need to manually enter your tokens. Go Settings > Reveal Config Variables.
-  - You need a variable called `GROUPME_BOT_SECRETS` and one called `GROUPME_BOT_GOOGLE_CLIENT_SECRET`. Copy the contents of your corrosponding files in to the value field. It should look something like this when you're done. TODO
+  - You need a variable called `GROUPME_BOT_SECRETS` and one called `GROUPME_BOT_GOOGLE_CLIENT_SECRET`. Copy the contents of your corrosponding files in to the value field. It should look something like this when you're done. 
+  <img src='config_vars_example.png' width=500 height=200>
 
 
 // TODO FINISH DEPLOYING TO HEROKU
