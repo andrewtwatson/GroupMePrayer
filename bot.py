@@ -6,6 +6,7 @@ GroupMe bot for prayer.
 """
 
 import json
+import os
 import random
 from urllib.parse import urlencode
 import requests
@@ -14,7 +15,7 @@ import random
 
 class Bot:
     # get the bot token from json
-    __secrets = json.load(open('secrets.json'))
+    __secrets = json.loads(os.environ["GROUPME_BOT_SECRETS"])
     BOT_ID = __secrets['bot_id']
     BASE_URL = "https://api.groupme.com/v3/"
     # json file of the indexes of the people already prayed for.
@@ -115,8 +116,11 @@ class Bot:
         g = GoogleHelper()
         google_data = g.getSpreadsheet()
         person_data = self.getPersonToPrayFor(google_data)
-        # self.sendMsg(self.BOT_ID, self.generateMessage(person_data[0], person_data[1]))
+        self.sendMsg(self.BOT_ID, self.generateMessage(person_data[0], person_data[1]))
 
-if __name__ == "__main__":
+def main():
     b = Bot()
     b.doBot()
+
+if __name__ == "__main__":
+    main()

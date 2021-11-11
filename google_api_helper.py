@@ -11,8 +11,11 @@ from apiclient import discovery
 from google.oauth2 import service_account
 
 class GoogleHelper:
+    """
+    Provides an easy interface for interacting with the Google spreadsheet
+    """
+    
     SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
-    google_client_secret = os.path.join(os.getcwd(), "google_client_secret.json")
     credentials = None
     service = None
     spreadsheet_range = 'B2:C655366'
@@ -24,8 +27,9 @@ class GoogleHelper:
         """
         Set up the credentials of the client.
         """
+        google_client_secret = json.loads(os.environ["GROUPME_BOT_GOOGLE_CLIENT_SECRET"])
         if not self.credentials or not self.service or (self.credentials.expired and self.credentials.refresh_token):
-            self.credentials = service_account.Credentials.from_service_account_file(self.google_client_secret, scopes=self.SCOPES)
+            self.credentials = service_account.Credentials.from_service_account_info(google_client_secret, scopes=self.SCOPES)
             self.service = discovery.build('sheets', 'v4', credentials=self.credentials)
 
     def getSpreadsheet(self):
