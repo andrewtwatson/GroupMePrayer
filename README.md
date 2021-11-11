@@ -1,7 +1,10 @@
 # GroupMePrayer
 GroupMe bot for daily prayer for people in FG.
 
-People will put their prayer requests in a Google Sheet. Then from a Heroku app, this bot will post to GroupMe once per day.
+People will put their prayer requests in a Google Sheet. Then from a Heroku app, this bot will post to GroupMe once per day. It will continue until it is turned off.
+
+Rows can be added to the end of the spreadsheet, modified, or deleted and everything will continue to work fine.
+It would be good to setup your google form such that people can only submit one response, but can edit their response if they want to. You can delete and add rows without hurting anything.
 
 ### Set Up
 - Create a copy of `secrets.template.json` named `secrets.json`.

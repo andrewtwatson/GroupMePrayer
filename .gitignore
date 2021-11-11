@@ -1,7 +1,7 @@
-# Dont upload tokens.
-tokens.json
+# Dont upload tokens, program data
 secrets.json
 google_client_secret.json
+already_prayed_for.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -10,15 +10,12 @@ import json
 from apiclient import discovery
 from google.oauth2 import service_account
 
-from pprint import pprint
-
-
 class GoogleHelper:
     SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
     google_client_secret = os.path.join(os.getcwd(), "google_client_secret.json")
     credentials = None
     service = None
-    spreadsheet_range = 'B2:C3'
+    spreadsheet_range = 'B2:C655366'
 
     __secrets = json.load(open('secrets.json'))
     spreadsheet_id = __secrets['spreadsheet_id']
@@ -32,7 +29,14 @@ class GoogleHelper:
             self.service = discovery.build('sheets', 'v4', credentials=self.credentials)
 
     def getSpreadsheet(self):
+        """
+        Gets the relevant data from the spreadsheet as an array of arrays.
+        """
         self._setupCreds()
         request = self.service.spreadsheets().values().get(spreadsheetId=self.spreadsheet_id, range=self.spreadsheet_range)
         response = request.execute()
-        return response['values']
+        values = response['values']
+        
+        # filter out blank rows
+        values = list(filter(lambda a: a != [], values))
+        return values
