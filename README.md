@@ -13,3 +13,5 @@ Heroku uses environmental variables for secret values. So there are two files yo
 
 ### Setup
 The steps to set up and deploy are [here](resources/setup.md).
+
+If there are bugs, make an issue on GitHub. Patches are always welome :).
