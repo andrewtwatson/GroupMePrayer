@@ -10,6 +10,7 @@ It would be good to setup your google form such that people can only submit one 
 Heroku uses environmental variables for secret values. So there are two files you can run depending on the situation.
 - Running on your own as a test area, use `py local_bot.py`. This will set up your environmental variables from the secret json files temporarily. All the environmental variables will be removed once the program terminates.
 - Running on Heroku, it will just use `py bot.py`. The environmental variables are set permanently there.
+To see and interact with the dynamic files within Heroku, run `heroku -a <app-name> run "<some unix commmand>"`.
 
 ### Setup
 The steps to set up and deploy are [here](resources/setup.md).

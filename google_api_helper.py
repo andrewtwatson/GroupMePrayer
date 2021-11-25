@@ -20,7 +20,7 @@ class GoogleHelper:
     service = None
     spreadsheet_range = 'B2:C655366'
 
-    __secrets = json.load(open('secrets.json'))
+    __secrets = json.loads(os.environ["GROUPME_BOT_SECRETS"])
     spreadsheet_id = __secrets['spreadsheet_id']
 
     def _setupCreds(self):
