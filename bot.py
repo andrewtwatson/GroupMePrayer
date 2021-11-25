@@ -18,8 +18,6 @@ class Bot:
     __secrets = json.loads(os.environ["GROUPME_BOT_SECRETS"])
     BOT_ID = __secrets['bot_id']
     BASE_URL = "https://api.groupme.com/v3/"
-    # json file of the indexes of the people already prayed for.
-    ALREADY_PRAYED_FOR = "already_prayed_for.json"
 
     def generateMessage(self, name: str, prayerRequest: str):
         """
@@ -64,19 +62,14 @@ class Bot:
         payload = {"bot_id": bot_id, "text": msg}
         r = requests.post(url, params=payload)
 
-    def getPersonToPrayFor(self, google_data: list):
+    def getPersonToPrayFor(self, google_data: list, already_prayed_for):
         """
-        Given the google data and the already_prayed_for file, figure out who to pray for next randomly.
+        Given the google data and the already_prayed_for object, figure out who to pray for next randomly.
         This function looks at the number of rows and which indexes have already been chosen (from the already prayed file)
         and chooses an index that has not been chosen yet.
         Returns an array where the index 0 is the name and index 1 is the request.
+            Also returns the updated already_prayed_for object to be saved
         """
-        try:
-            file = open(self.ALREADY_PRAYED_FOR, "r")
-            already_prayed = json.load(file)
-            file.close()
-        except OSError:
-            already_prayed = []
 
         # wrap google_data into a list of dictionaries that will maintain the index numbers of the people
         wrapped_data = []
@@ -87,36 +80,32 @@ class Bot:
             })
         
         # remove already_prayed rows from wrapped data
-        for index in already_prayed:
+        for index in already_prayed_for:
             for person in wrapped_data:
                 if person["index"] == index:
                     wrapped_data.remove(person)
                     break
 
-        # if data is now empty, wipe the json and run this again. Reset.
+        # if data is now empty, do this again with new an empty already_prayed_for
         if len(wrapped_data) == 0:
-            file = open(self.ALREADY_PRAYED_FOR, "w")
-            json.dump([], file)
-            file.close()
-            return self.getPersonToPrayFor(google_data)
+            return self.getPersonToPrayFor(google_data, [])
 
         # randomly choose a person
         person = random.choice(wrapped_data)
 
-        # add the index of that person to already_prayed_for.json
-        already_prayed.append(person["index"])
-        file = open(self.ALREADY_PRAYED_FOR, "w")
-        json.dump(already_prayed, file)
-        file.close()
-
-        return person["data"]
+        # add the index of that person to already_prayed_for
+        already_prayed_for.append(person["index"])
+        
+        return person["data"], already_prayed_for
 
 
     def doBot(self):
         g = GoogleHelper()
         google_data = g.getSpreadsheet()
-        person_data = self.getPersonToPrayFor(google_data)
+        already_prayed_for = g.getAlreadyPrayedFor()
+        person_data, new_already_prayed_for = self.getPersonToPrayFor(google_data, already_prayed_for)
         self.sendMsg(self.BOT_ID, self.generateMessage(person_data[0], person_data[1]))
+        g.updateAlreadyPrayedFor(new_already_prayed_for)
 
 def main():
     b = Bot()

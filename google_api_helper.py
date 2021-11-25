@@ -15,7 +15,7 @@ class GoogleHelper:
     Provides an easy interface for interacting with the Google spreadsheet
     """
     
-    SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
+    SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
     credentials = None
     service = None
     spreadsheet_range = 'B2:C655366'
@@ -44,3 +44,22 @@ class GoogleHelper:
         # filter out blank rows
         values = list(filter(lambda a: a != [], values))
         return values
+    
+    def getAlreadyPrayedFor(self):
+        """
+        The cell Z1 is used to store a JSON object for the people who have already been prayed for and who's next.
+        Get the cell and return it as a JSON object.
+        """
+        self._setupCreds()
+        request = self.service.spreadsheets().values().get(spreadsheetId=self.spreadsheet_id, range='Z1')
+        response = request.execute()
+        json_string = response['values'][0]
+        return json.loads(json_string)
+    
+    def updateAlreadyPrayedFor(self, json_object):
+        """
+        The cell Z1 is used to store a JSON object for the people who have already been prayed for and who's next.
+        Update the cell with a new JSON object.
+        """
+        # TODO
+        pass

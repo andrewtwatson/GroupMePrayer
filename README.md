@@ -15,4 +15,4 @@ To see and interact with the dynamic files within Heroku, run `heroku -a <app-na
 ### Setup
 The steps to set up and deploy are [here](resources/setup.md).
 
-If there are bugs, make an issue on GitHub. Patches are always welome :).
+If there are bugs, make an issue on GitHub. Patches are always welcome :).
