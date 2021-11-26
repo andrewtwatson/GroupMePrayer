@@ -25,7 +25,8 @@ I suggest you make a dummy groupme and go through this with that. Then when you 
   <img src='config_vars_example.png' width=500 height=200>
 - You can set it up to deploy automatically on commits to main, or just click deploy now just deploy the current version.
 - To test that its working, you can run `heroku run -a <app-name> "python bot.py"`
-- Follow [this article](https://medium.com/analytics-vidhya/schedule-a-python-script-on-heroku-a978b2f91ca8). They describe how this process works better than I can.
+- For the scheduling part, follow [this article](https://medium.com/analytics-vidhya/schedule-a-python-script-on-heroku-a978b2f91ca8). They describe how this process works better than I can.
   - You will have to use the "Heroku Scheduler" instead of the "Advanced Scheduler." You also have to put in a credit card, but it shouldn't charge you.
+  - Click the Heroku Scheduler and setup your job. Note that the time is in UTC, so look up a conversion. The command to run is `python bot.py`
 
 That's it! You're all set!
