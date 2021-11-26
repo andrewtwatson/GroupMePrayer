@@ -18,7 +18,8 @@ class GoogleHelper:
     SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
     credentials = None
     service = None
-    spreadsheet_range = 'B2:C655366'
+    SPREADSHEET_RANGE = 'B2:C655366'
+    ALREADY_PRAYED_FOR_CELL = 'I1'
 
     __secrets = json.loads(os.environ["GROUPME_BOT_SECRETS"])
     spreadsheet_id = __secrets['spreadsheet_id']
@@ -37,7 +38,7 @@ class GoogleHelper:
         Gets the relevant data from the spreadsheet as an array of arrays.
         """
         self._setupCreds()
-        request = self.service.spreadsheets().values().get(spreadsheetId=self.spreadsheet_id, range=self.spreadsheet_range)
+        request = self.service.spreadsheets().values().get(spreadsheetId=self.spreadsheet_id, range=self.SPREADSHEET_RANGE)
         response = request.execute()
         values = response['values']
         
@@ -51,9 +52,12 @@ class GoogleHelper:
         Get the cell and return it as a JSON object.
         """
         self._setupCreds()
-        request = self.service.spreadsheets().values().get(spreadsheetId=self.spreadsheet_id, range='Z1')
+        request = self.service.spreadsheets().values().get(spreadsheetId=self.spreadsheet_id, range=self.ALREADY_PRAYED_FOR_CELL)
         response = request.execute()
-        json_string = response['values'][0]
+        try:
+            json_string = response['values'][0][0]
+        except KeyError:
+            json_string = "[]"
         return json.loads(json_string)
     
     def updateAlreadyPrayedFor(self, json_object):
@@ -61,5 +65,13 @@ class GoogleHelper:
         The cell Z1 is used to store a JSON object for the people who have already been prayed for and who's next.
         Update the cell with a new JSON object.
         """
-        # TODO
-        pass
+        self._setupCreds()
+        value_range_body = {
+            "range": self.ALREADY_PRAYED_FOR_CELL,
+            "majorDimension": "ROWS",
+            "values": [
+                [json.dumps(json_object)]
+            ]
+        }
+        request = self.service.spreadsheets().values().update(spreadsheetId=self.spreadsheet_id, range=self.ALREADY_PRAYED_FOR_CELL, valueInputOption='RAW', body=value_range_body)
+        request.execute()
