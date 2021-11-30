@@ -48,8 +48,8 @@ class GoogleHelper:
     
     def getAlreadyPrayedFor(self):
         """
-        The cell Z1 is used to store a JSON object for the people who have already been prayed for and who's next.
-        Get the cell and return it as a JSON object.
+        The cell I1 is used to store a JSON object for the people who have already been prayed for and who's next.
+        Get the cell and return it as a JSON object. If it is empty, give a blank json object back
         """
         self._setupCreds()
         request = self.service.spreadsheets().values().get(spreadsheetId=self.spreadsheet_id, range=self.ALREADY_PRAYED_FOR_CELL)
@@ -57,12 +57,12 @@ class GoogleHelper:
         try:
             json_string = response['values'][0][0]
         except KeyError:
-            json_string = "[]"
+            return {'past': [], 'next': -1}
         return json.loads(json_string)
     
     def updateAlreadyPrayedFor(self, json_object):
         """
-        The cell Z1 is used to store a JSON object for the people who have already been prayed for and who's next.
+        The cell I1 is used to store a JSON object for the people who have already been prayed for and who's next.
         Update the cell with a new JSON object.
         """
         self._setupCreds()
