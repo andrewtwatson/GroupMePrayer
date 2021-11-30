@@ -4,20 +4,20 @@ This tutorial will get you fully set up and deployed. You will be equipped to ru
 I suggest you make a dummy groupme and go through this with that. Then when you have it working, you can go back through with your real groupme.
 
 - Fork this project to your own repository.
-- * Create a copy of `secrets.template.json` named `secrets.json`.
+- \* Create a copy of `secrets.template.json` named `secrets.json`.
 - Register a bot with groupme. 
-  - * Add your bot_token to `secrets.json`.
-- * Add the requests library with `pip install requests`
+  - \* Add your bot_token to `secrets.json`.
+- \* Add the requests library with `pip install requests`
 ##### Google Setup
 - Register your sheet with Google Cloud Platform
-  - * Run `pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib` to get the needed libraries.
+  - \* Run `pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib` to get the needed libraries.
   - Use open Google's Cloud Console (console.cloud.google.com), open a project and enable the sheets API.
   - Create a service account.
     - Generate a key pair for it. Save the private key as `google_client_secret.json` in the root directory of the project.
     - Similar to this https://denisluiz.medium.com/python-with-google-sheets-service-account-step-by-step-8f74c26ed28e
 - Create your Google Form. Share the sheet created by it with your Google Service Account's email.
   - It should have two questions: first the persons name and then their prayer request
-  - * Add the spreadsheet_id to `secrets.json`. The url for your sheet looks like "docs.google.com/spreadsheets/d/<spreadsheet_id>/edit"
+  - \* Add the spreadsheet_id to `secrets.json`. The url for your sheet looks like `docs.google.com/spreadsheets/d/<spreadsheet_id>/edit`
 ##### Heroku Setup
 - Create a new app. You should also log in to heroku's cli.
 - You will need to manually enter your tokens. Go Settings > Reveal Config Variables.
