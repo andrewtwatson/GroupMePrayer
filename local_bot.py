@@ -2,6 +2,8 @@
 Sets up the environmental variables from secrets.json and google_client_secret.json, then runs bot.py.
 This is just for the convienence of testing on a local machine instead of on heroku.
 
+It adds temporary environment variables so that the rest of the program can understand them.
+
 @author Andrew Watson
 
 """
