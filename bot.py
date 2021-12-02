@@ -54,8 +54,7 @@ class Bot:
         for p in param_options:
             params.append(random.choice(p))
 
-        template = "%s %s! %s for " + name + ". %s: \n" + prayerRequest + "\n\n%s%s\n" + name + ", if you have any prayer requests, you can post them below.\n\n%s"
-        message = template % tuple(params)
+        message = f"{params[0]} {params[1]}! {params[2]} for {name}. {params[3]}: \n{prayerRequest}\n\n{params[4]}{params[5]}\n{name}, if you have any prayer requests, you can post them below.\n\n{params[6]}"
 
         return message
 
