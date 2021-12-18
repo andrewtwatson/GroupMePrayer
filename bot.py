@@ -32,18 +32,18 @@ class Bot:
         param_options = [
             ("Hey", "Howdy", "Hi", "Good morning"),
             ("y'all", "family", "everyone", "guys"),
-            ("Today, we are gonna be praying", "The person of the day to be praying", "Today, we're praying", "Today, please pray"),
+            ("Today, we are gonna be praying for", "The person of the day to be praying for is", "Today, we're praying for", "Today, take time to pray for"),
             ("They wrote", name + " wrote", "They are asking for prayer for this"),
             ("Please join in praying for " + name + " today!", "Pray boldly! God hears your prayers! He is not far off.", \
                 "God is good! O how beautiful he is! Seek him today.", 
                 "Psalm 27 -> I believe that I shall look upon the goodness of the LORD in the land of the living!\n" \
                     "Wait for the LORD; be strong, and let your heart take courage;wait for the LORD!\""),
             
-            # The vision should only come up maybe once every 10 days on average
+            # The vision should only come up maybe once every 14 days on average
             ("\n\nJust as a reminder, the reason we do this every day is to live what it means to be a Family Member" \
                 " towards each other and bear each others burdens. Galatians 6:2 says \"Bear one another's burdens, and so fulfill the law of Christ.\"" \
                 " The law of Chist is to love above all else! To love the Lord your God and to love your brothers and sisters!" \
-                " This is one way we do that!", "", "", "", "", "", "", "", "", ""),
+                " This is one way we do that!", "", "", "", "", "", "", "", "", "", "", "", "", ""),
             
             ("Also, " + next_person_name + " will be up tomorrow! If you want to update your prayer requests, go to the Google Form now.",
              "And just so you know, " + next_person_name + " is up next. Go update your requests if you want.",
@@ -54,7 +54,7 @@ class Bot:
         for p in param_options:
             params.append(random.choice(p))
 
-        message = f"{params[0]} {params[1]}! {params[2]} for {name}. {params[3]}: \n{prayerRequest}\n\n{params[4]}{params[5]}\n{name}, if you have any prayer requests, you can post them below.\n\n{params[6]}"
+        message = f"{params[0]} {params[1]}! {params[2]} {name}. {params[3]}: \n{prayerRequest}\n\n{params[4]}{params[5]}\n{name}, if you have any prayer requests, you can post them below.\n\n{params[6]}"
 
         return message
 
